@@ -23,6 +23,10 @@ run "try_relative_name_is_not_accpeted" {
 
 run "zone_name_absolute" {
   command = plan
+
+  variables {
+    zone = "test."
+  }
 }
 
 run "basic_zone" {
