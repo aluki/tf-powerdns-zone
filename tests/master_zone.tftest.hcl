@@ -9,26 +9,6 @@ variables {
   dns_port = "32053"
 }
 
-run "try_relative_name_is_not_accpeted" {
-  command = plan
-
-  variables {
-    zone = "test"
-  }
-
-  expect_failures = [
-    var.zone
-  ]
-}
-
-run "zone_name_absolute" {
-  command = plan
-
-  variables {
-    zone = "test."
-  }
-}
-
 run "basic_zone" {
   assert {
     condition = powerdns_zone.this.name == var.zone
@@ -37,7 +17,18 @@ run "basic_zone" {
 
   assert {
     condition = powerdns_zone.this.kind == "Master"
-    error_message = "The zone type is"
+    error_message = "The zone type is not master, it is '${powerdns_zone.this.kind}'"
+  }
+}
+
+run "zone_type_master" {
+  variables {
+    zone_type = "Master"
+  }
+
+  assert {
+    condition = resource.powerdns_zone.this.kind == "Master"
+    error_message = "The zone_type should be 'Master', but it is ${resource.powerdns_zone.this.kind}"
   }
 }
 

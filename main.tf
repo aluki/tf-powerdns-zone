@@ -1,4 +1,5 @@
 resource "powerdns_zone" "this" {
   name = var.zone
-  kind = "Master"
+  kind = var.zone_type
+  masters = var.masters
 }
