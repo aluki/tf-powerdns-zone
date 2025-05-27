@@ -1,3 +1,4 @@
+
 data "external" "soa_udp" {
   program = ["sh", "-c", "q -f=json +nord @${var.dns_host}:${var.dns_port} soa ${var.zone} | jq -r '{result: .[0].replies[0].rcode | tostring, answers: .[0].replies[0].answer | length | tostring}'"]
 }
